@@ -13,15 +13,3 @@ body {
   font-size: 8pt;
   float: right;
 }
-.example-month-picker .mat-calendar-header{
-  display: none;
-}
-mat-year-view .mat-calendar-body-label{
-  display: none !important;
-}
-.example-month-picker.mat-calendar {
-  height: 250px !important;
-  .mat-calendar-table-header th{
-    padding: 8px 0;
-  }
-}
