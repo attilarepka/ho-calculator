@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, HostListener} from '@angular/core';
 
 @Component({
     selector : 'app-root',
@@ -17,5 +17,10 @@ export class AppComponent {
             this.daysSelected.splice(index, 1);
 
         console.log(this.daysSelected.length)
+    }
+
+    @HostListener('contextmenu', [ '$event' ])
+    onRightClick(event: {preventDefault: () => void;}) {
+        event.preventDefault();
     }
 }

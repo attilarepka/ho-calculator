@@ -295,9 +295,16 @@
 
 </style>
 
+<div class="container" (contextmenu)="onRightClick($event)"></div>
+
 <!-- Toolbar -->
 <div class="toolbar" role="banner">
-    <div class="spacer"></div>
+    <div class="spacer" align="center">
+        <mat-button-toggle-group name="fontStyle" aria-label="Font Style">
+            <mat-button-toggle value="annual">annual leave</mat-button-toggle>
+            <mat-button-toggle value="ho">home office</mat-button-toggle>
+        </mat-button-toggle-group>
+    </div>
 </div>
 <div class="content" role="main">
     <div class="card-container">

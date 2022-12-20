@@ -23,13 +23,13 @@ export class MatCalendarWrapperComponent implements OnChanges {
     event: any;
     calendarStartAt: Date;
 
-    constructor() {}
+    constructor() {};
 
     ngOnChanges(changes: SimpleChanges) {
         const date = new Date('2023'); // TODO: set year
         date.setMonth(this.startMonth);
         this.calendarStartAt = date;
-    }
+    };
 
     isSelected = (event: any) => {
         const date = event.getFullYear() + '-' +
@@ -39,7 +39,7 @@ export class MatCalendarWrapperComponent implements OnChanges {
                                                         : (null as any);
     };
 
-    select(event: any, calendar: any) {
+    select = (event: any, calendar: any): void => {
         const date = event.getFullYear() + '-' +
                      ('00' + (event.getMonth() + 1)).slice(-2) + '-' +
                      ('00' + event.getDate()).slice(-2);
@@ -52,7 +52,7 @@ export class MatCalendarWrapperComponent implements OnChanges {
         calendar.updateTodaysDate();
 
         this.notifyParent.emit(date);
-    }
+    };
 
     holidayFilter = (now: Date): boolean => {
         const holidayAPI = [
