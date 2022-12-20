@@ -1,8 +1,10 @@
 import {
     ChangeDetectionStrategy,
     Component,
+    EventEmitter,
     Input,
     OnChanges,
+    Output,
     SimpleChanges,
     ViewEncapsulation,
 } from '@angular/core';
@@ -16,6 +18,7 @@ import {
 })
 export class MatCalendarWrapperComponent implements OnChanges {
     @Input() startMonth: number;
+    @Output() notifyParent: EventEmitter<any> = new EventEmitter();
     daysSelected: any[] = [];
     event: any;
     calendarStartAt: Date;
@@ -47,6 +50,8 @@ export class MatCalendarWrapperComponent implements OnChanges {
             this.daysSelected.splice(index, 1);
 
         calendar.updateTodaysDate();
+
+        this.notifyParent.emit(date);
     }
 
     holidayFilter = (now: Date): boolean => {
