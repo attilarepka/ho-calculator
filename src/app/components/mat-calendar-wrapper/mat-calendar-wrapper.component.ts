@@ -36,23 +36,32 @@ export class MatCalendarWrapperComponent implements OnChanges {
         const date = event.getFullYear() + '-' +
                      ('00' + (event.getMonth() + 1)).slice(-2) + '-' +
                      ('00' + event.getDate()).slice(-2);
-        return this.daysSelected.find((x) => x == date) ? 'homeoffice'
-                                                        : (null as any);
+        const obj = this.daysSelected.find((x) => x.has(date));
+        return obj ? obj.get(date) : (null as any);
     };
 
     select = (event: any, calendar: any): void => {
         const date = event.getFullYear() + '-' +
                      ('00' + (event.getMonth() + 1)).slice(-2) + '-' +
                      ('00' + event.getDate()).slice(-2);
-        const index = this.daysSelected.findIndex((x) => x == date);
-        if (index < 0)
-            this.daysSelected.push(date);
+        const obj = this.daysSelected.find((x) => x.has(date));
+        const map = new Map();
+        map.set(date, this.selectionType);
+        if (obj)
+            if (obj.get(date) == this.selectionType) {
+                this.daysSelected.splice(obj, 1);
+            } else {
+                this.daysSelected.splice(obj, 1, map);
+            }
         else
-            this.daysSelected.splice(index, 1);
+            this.daysSelected.push(map);
+
+        console.log(this.daysSelected);
 
         calendar.updateTodaysDate();
 
-        this.notifyParent.emit(date);
+        // TODO: proper emit to parent
+        // this.notifyParent.emit(date);
     };
 
     holidayFilter = (now: Date): boolean => {

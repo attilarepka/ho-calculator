@@ -18,8 +18,6 @@ export class AppComponent {
             this.daysSelected.push(event);
         else
             this.daysSelected.splice(index, 1);
-
-        console.log(this.daysSelected.length);
     }
 
     @HostListener('contextmenu', [ '$event' ])
