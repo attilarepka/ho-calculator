@@ -1,1 +1,4 @@
-<p>mat-calendar-wrapper works!</p>
+<div (click)="$event.stopPropagation()">
+    <mat-calendar #calendar (selectedChange)="select($event,calendar)" [dateFilter]="weekendsDatesFilter"
+        [dateClass]="isSelected" startView="month" [startAt]="calendarStartAt"></mat-calendar>
+</div>
