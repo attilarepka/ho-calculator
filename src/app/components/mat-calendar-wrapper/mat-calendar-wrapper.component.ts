@@ -44,13 +44,8 @@ export class MatCalendarWrapperComponent implements OnChanges {
         const date = event.getFullYear() + '-' +
                      ('00' + (event.getMonth() + 1)).slice(-2) + '-' +
                      ('00' + event.getDate()).slice(-2);
-        const item = this.daysSelected.has(date);
-        if (item)
-            if (this.daysSelected.get(date) == this.selectionType) {
-                this.daysSelected.delete(date);
-            } else {
-                this.daysSelected.set(date, this.selectionType);
-            }
+        if (this.daysSelected.get(date) == this.selectionType)
+            this.daysSelected.delete(date);
         else
             this.daysSelected.set(date, this.selectionType);
 
