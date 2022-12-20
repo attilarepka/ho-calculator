@@ -11,3 +11,6 @@
 .inline-calendar-card {
   width: 240px;
 }
+.mat-calendar-header{
+  display: none;
+}
