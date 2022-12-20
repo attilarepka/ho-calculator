@@ -201,7 +201,6 @@ export class MatCalendarWrapperComponent implements OnChanges {
         const nowOffset =
             new Date(now.getTime() - now.getTimezoneOffset() * 60 * 1000);
         const nowStr = nowOffset.toISOString().split('T')[0];
-        console.log(nowStr);
 
         return !holidayAPI.some((e) => nowStr === e.date);
     };
