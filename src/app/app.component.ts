@@ -6,6 +6,9 @@ import {Component, HostListener} from '@angular/core';
     styleUrls : [ './app.component.css' ],
 })
 export class AppComponent {
+    homeOfficeLimit: number = 150;
+    annualLeaveLimit: number;
+    buttonSelected: string = "ho";
     title = 'ho-calc';
     daysSelected: any[] = [];
 
@@ -16,11 +19,11 @@ export class AppComponent {
         else
             this.daysSelected.splice(index, 1);
 
-        console.log(this.daysSelected.length)
+        console.log(this.daysSelected.length);
     }
 
     @HostListener('contextmenu', [ '$event' ])
-    onRightClick(event: {preventDefault: () => void;}) {
+    onRightClick(event: {preventDefault: () => void}) {
         event.preventDefault();
     }
 }
