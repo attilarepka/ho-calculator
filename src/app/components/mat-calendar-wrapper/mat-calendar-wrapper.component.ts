@@ -1,11 +1,11 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
 @Component({
     selector : 'app-mat-calendar-wrapper',
     templateUrl : './mat-calendar-wrapper.component.html',
     styleUrls : [ './mat-calendar-wrapper.component.css' ],
 })
-export class MatCalendarWrapperComponent {
+export class MatCalendarWrapperComponent implements OnInit {
     daysSelected: any[] = [];
     event: any;
     calendarStartAt: Date;
@@ -18,7 +18,8 @@ export class MatCalendarWrapperComponent {
         const date = event.getFullYear() + '-' +
                      ('00' + (event.getMonth() + 1)).slice(-2) + '-' +
                      ('00' + event.getDate()).slice(-2);
-        return this.daysSelected.find((x) => x == date) ? 'selected' : null;
+        return this.daysSelected.find((x) => x == date) ? 'selected'
+                                                        : null as any;
     };
 
     select(event: any, calendar: any) {
