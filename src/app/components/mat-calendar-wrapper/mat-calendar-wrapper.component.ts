@@ -20,7 +20,7 @@ export class MatCalendarWrapperComponent implements OnChanges {
     @Input() startMonth: number;
     @Input() selectionType: string;
     @Output() notifyParent: EventEmitter<any> = new EventEmitter();
-    daysSelected: any[] = [];
+    daysSelected: Map<string, string> = new Map<string, string>();
     event: any;
     calendarStartAt: Date;
 
@@ -36,25 +36,23 @@ export class MatCalendarWrapperComponent implements OnChanges {
         const date = event.getFullYear() + '-' +
                      ('00' + (event.getMonth() + 1)).slice(-2) + '-' +
                      ('00' + event.getDate()).slice(-2);
-        const obj = this.daysSelected.find((x) => x.has(date));
-        return obj ? obj.get(date) : (null as any);
+        const item = this.daysSelected.has(date);
+        return item ? this.daysSelected.get(date) : (null as any);
     };
 
     select = (event: any, calendar: any): void => {
         const date = event.getFullYear() + '-' +
                      ('00' + (event.getMonth() + 1)).slice(-2) + '-' +
                      ('00' + event.getDate()).slice(-2);
-        const obj = this.daysSelected.find((x) => x.has(date));
-        const map = new Map();
-        map.set(date, this.selectionType);
-        if (obj)
-            if (obj.get(date) == this.selectionType) {
-                this.daysSelected.splice(obj, 1);
+        const item = this.daysSelected.has(date);
+        if (item)
+            if (this.daysSelected.get(date) == this.selectionType) {
+                this.daysSelected.delete(date);
             } else {
-                this.daysSelected.splice(obj, 1, map);
+                this.daysSelected.set(date, this.selectionType);
             }
         else
-            this.daysSelected.push(map);
+            this.daysSelected.set(date, this.selectionType);
 
         console.log(this.daysSelected);
 
