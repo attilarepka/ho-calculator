@@ -35,7 +35,7 @@ export class MatCalendarWrapperComponent implements OnChanges {
         const date = event.getFullYear() + '-' +
                      ('00' + (event.getMonth() + 1)).slice(-2) + '-' +
                      ('00' + event.getDate()).slice(-2);
-        return this.daysSelected.find((x) => x == date) ? 'selected'
+        return this.daysSelected.find((x) => x == date) ? 'homeoffice'
                                                         : (null as any);
     };
 
