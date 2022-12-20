@@ -300,7 +300,7 @@
 
 <div class="content" role="main">
     <div class="card-container">
-    <ng-container *ngFor="let _ of [].constructor(12)"><app-mat-calendar-wrapper></app-mat-calendar-wrapper></ng-container>
+        <ng-container *ngFor="let month of [].constructor(12); let i = index"><app-mat-calendar-wrapper [startMonth]="i"></app-mat-calendar-wrapper></ng-container>
     </div>
 </div>
 

@@ -1,19 +1,32 @@
-import {Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    Component,
+    Input,
+    OnChanges,
+    SimpleChanges,
+    ViewEncapsulation
+} from '@angular/core';
 
 @Component({
     selector : 'app-mat-calendar-wrapper',
     templateUrl : './mat-calendar-wrapper.component.html',
     styleUrls : [ './mat-calendar-wrapper.component.css' ],
-    encapsulation : ViewEncapsulation.None
+    encapsulation : ViewEncapsulation.None,
+    changeDetection : ChangeDetectionStrategy.OnPush
 })
-export class MatCalendarWrapperComponent implements OnInit {
+export class MatCalendarWrapperComponent implements OnChanges {
+    @Input() startMonth: number;
     daysSelected: any[] = [];
     event: any;
     calendarStartAt: Date;
 
-    constructor() { this.calendarStartAt = new Date(); }
+    constructor() {}
 
-    ngOnInit() { this.calendarStartAt = new Date('2023-01-01'); }
+    ngOnChanges(changes: SimpleChanges) {
+        const date = new Date();
+        date.setMonth(this.startMonth);
+        this.calendarStartAt = date;
+    }
 
     isSelected = (event: any) => {
         const date = event.getFullYear() + '-' +
