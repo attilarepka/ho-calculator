@@ -300,7 +300,7 @@
 <!-- Toolbar -->
 <div class="toolbar" role="banner">
     <div class="spacer" align="center">
-        <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(ngModel)]="buttonSelected">
+        <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(ngModel)]="selectionType">
             <mat-button-toggle name="annual" value="annual">annual leave</mat-button-toggle>
             <mat-button-toggle name="homeoffice" value="homeoffice">home office</mat-button-toggle>
         </mat-button-toggle-group>
@@ -309,7 +309,7 @@
 <div class="content" role="main">
     <div class="card-container">
         <ng-container *ngFor="let month of [].constructor(12); let i = index">
-            <app-mat-calendar-wrapper (notifyParent)="getNotification($event)" [startMonth]="i"></app-mat-calendar-wrapper>
+            <app-mat-calendar-wrapper (notifyParent)="getNotification($event)" [startMonth]="i" [selectionType]="selectionType"></app-mat-calendar-wrapper>
         </ng-container>
     </div>
     <!-- Settings -->

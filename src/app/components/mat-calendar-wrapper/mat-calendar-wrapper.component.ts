@@ -18,6 +18,7 @@ import {
 })
 export class MatCalendarWrapperComponent implements OnChanges {
     @Input() startMonth: number;
+    @Input() selectionType: string;
     @Output() notifyParent: EventEmitter<any> = new EventEmitter();
     daysSelected: any[] = [];
     event: any;

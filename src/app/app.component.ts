@@ -8,7 +8,7 @@ import {Component, HostListener} from '@angular/core';
 export class AppComponent {
     homeOfficeLimit: number = 150;
     annualLeaveLimit: number;
-    buttonSelected: string = "homeoffice";
+    selectionType: string = "homeoffice";
     title = 'ho-calc';
     daysSelected: any[] = [];
 
