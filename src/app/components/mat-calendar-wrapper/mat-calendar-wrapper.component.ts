@@ -20,7 +20,7 @@ export class MatCalendarWrapperComponent implements OnChanges {
     @Input() startMonth: number;
     @Input() selectionType: string;
     @Output() notifyParent: EventEmitter<any> = new EventEmitter();
-    daysSelected: Map<string, string> = new Map<string, string>();
+    daysMap: Map<string, string> = new Map<string, string>();
     event: any;
     calendarStartAt: Date;
 
@@ -36,25 +36,22 @@ export class MatCalendarWrapperComponent implements OnChanges {
         const date = event.getFullYear() + '-' +
                      ('00' + (event.getMonth() + 1)).slice(-2) + '-' +
                      ('00' + event.getDate()).slice(-2);
-        const item = this.daysSelected.has(date);
-        return item ? this.daysSelected.get(date) : (null as any);
+        const item = this.daysMap.has(date);
+        return item ? this.daysMap.get(date) : (null as any);
     };
 
     select = (event: any, calendar: any): void => {
         const date = event.getFullYear() + '-' +
                      ('00' + (event.getMonth() + 1)).slice(-2) + '-' +
                      ('00' + event.getDate()).slice(-2);
-        if (this.daysSelected.get(date) == this.selectionType)
-            this.daysSelected.delete(date);
+        if (this.daysMap.get(date) == this.selectionType)
+            this.daysMap.delete(date);
         else
-            this.daysSelected.set(date, this.selectionType);
-
-        console.log(this.daysSelected);
+            this.daysMap.set(date, this.selectionType);
 
         calendar.updateTodaysDate();
 
-        // TODO: proper emit to parent
-        // this.notifyParent.emit(date);
+        this.notifyParent.emit({key : date, value : this.selectionType});
     };
 
     holidayFilter = (now: Date): boolean => {

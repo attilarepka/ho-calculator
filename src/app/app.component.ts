@@ -10,14 +10,14 @@ export class AppComponent {
     annualLeaveLimit: number;
     selectionType: string = "homeoffice";
     title = 'ho-calc';
-    daysSelected: any[] = [];
+    daysMap: Map<string, string> = new Map<string, string>();
 
-    getNotification(event: any[]) {
-        const index = this.daysSelected.findIndex((x) => x == event);
-        if (index < 0)
-            this.daysSelected.push(event);
+    getNotification(event: any) {
+        const key = event.key;
+        if (this.daysMap.get(key) == this.selectionType)
+            this.daysMap.delete(key);
         else
-            this.daysSelected.splice(index, 1);
+            this.daysMap.set(key, this.selectionType);
     }
 
     @HostListener('contextmenu', [ '$event' ])
