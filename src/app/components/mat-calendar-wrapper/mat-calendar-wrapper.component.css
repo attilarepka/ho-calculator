@@ -10,6 +10,7 @@
 }
 .inline-calendar-card {
   width: 240px;
+  height: 230px;
 }
 .mat-calendar-header{
   display: none;
