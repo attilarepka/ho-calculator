@@ -23,7 +23,7 @@ export class MatCalendarWrapperComponent implements OnChanges {
     constructor() {}
 
     ngOnChanges(changes: SimpleChanges) {
-        const date = new Date('2023');
+        const date = new Date('2023'); // TODO: set year
         date.setMonth(this.startMonth);
         this.calendarStartAt = date;
     }
@@ -49,23 +49,168 @@ export class MatCalendarWrapperComponent implements OnChanges {
         calendar.updateTodaysDate();
     }
 
-    holidayFilter = (now: Date):
-        boolean => {
-            // TODO:
-            // make API call
-            // filter to date
-            const holiday =
-                Array(new Date('2023-08-16'), new Date('2023-08-23'));
-            return !holiday.some((e) => now.getFullYear() === e.getFullYear() &&
-                                        now.getMonth() === e.getMonth() &&
-                                        now.getDate() === e.getDate());
-        }
+    holidayFilter = (now: Date): boolean => {
+        const holidayAPI = [
+            {
+                date : '2023-01-01',
+                localName : 'Újév',
+                name : "New Year's Day",
+                countryCode : 'HU',
+                fixed : true,
+                global : true,
+                counties : null,
+                launchYear : null,
+                types : [ 'Public' ],
+            },
+            {
+                date : '2023-03-15',
+                localName : 'Nemzeti ünnep',
+                name : '1848 Revolution Memorial Day',
+                countryCode : 'HU',
+                fixed : true,
+                global : true,
+                counties : null,
+                launchYear : null,
+                types : [ 'Public' ],
+            },
+            {
+                date : '2023-04-07',
+                localName : 'Nagypéntek',
+                name : 'Good Friday',
+                countryCode : 'HU',
+                fixed : false,
+                global : true,
+                counties : null,
+                launchYear : null,
+                types : [ 'Public' ],
+            },
+            {
+                date : '2023-04-09',
+                localName : 'Húsvétvasárnap',
+                name : 'Easter Sunday',
+                countryCode : 'HU',
+                fixed : false,
+                global : true,
+                counties : null,
+                launchYear : null,
+                types : [ 'Public' ],
+            },
+            {
+                date : '2023-04-10',
+                localName : 'Húsvéthétfő',
+                name : 'Easter Monday',
+                countryCode : 'HU',
+                fixed : false,
+                global : true,
+                counties : null,
+                launchYear : null,
+                types : [ 'Public' ],
+            },
+            {
+                date : '2023-05-01',
+                localName : 'A munka ünnepe',
+                name : 'Labour day',
+                countryCode : 'HU',
+                fixed : true,
+                global : true,
+                counties : null,
+                launchYear : null,
+                types : [ 'Public' ],
+            },
+            {
+                date : '2023-05-28',
+                localName : 'Pünkösdvasárnap',
+                name : 'Pentecost',
+                countryCode : 'HU',
+                fixed : false,
+                global : true,
+                counties : null,
+                launchYear : null,
+                types : [ 'Public' ],
+            },
+            {
+                date : '2023-05-29',
+                localName : 'Pünkösdhétfő',
+                name : 'Whit Monday',
+                countryCode : 'HU',
+                fixed : false,
+                global : true,
+                counties : null,
+                launchYear : null,
+                types : [ 'Public' ],
+            },
+            {
+                date : '2023-08-20',
+                localName : 'Az államalapítás ünnepe',
+                name : 'State Foundation Day',
+                countryCode : 'HU',
+                fixed : true,
+                global : true,
+                counties : null,
+                launchYear : null,
+                types : [ 'Public' ],
+            },
+            {
+                date : '2023-10-23',
+                localName : 'Nemzeti ünnep',
+                name : '1956 Revolution Memorial Day',
+                countryCode : 'HU',
+                fixed : true,
+                global : true,
+                counties : null,
+                launchYear : null,
+                types : [ 'Public' ],
+            },
+            {
+                date : '2023-11-01',
+                localName : 'Mindenszentek',
+                name : 'All Saints Day',
+                countryCode : 'HU',
+                fixed : true,
+                global : true,
+                counties : null,
+                launchYear : null,
+                types : [ 'Public' ],
+            },
+            {
+                date : '2023-12-25',
+                localName : 'Karácsony',
+                name : 'Christmas Day',
+                countryCode : 'HU',
+                fixed : true,
+                global : true,
+                counties : null,
+                launchYear : null,
+                types : [ 'Public' ],
+            },
+            {
+                date : '2023-12-26',
+                localName : 'Karácsony másnapja',
+                name : "St. Stephen's Day",
+                countryCode : 'HU',
+                fixed : true,
+                global : true,
+                counties : null,
+                launchYear : null,
+                types : [ 'Public' ],
+            },
+        ];
+        // TODO:
+        // make API call
+
+        const nowOffset =
+            new Date(now.getTime() - now.getTimezoneOffset() * 60 * 1000);
+        const nowStr = nowOffset.toISOString().split('T')[0];
+        console.log(nowStr);
+
+        return !holidayAPI.some((e) => nowStr === e.date);
+    };
 
     weekendsDatesFilter = (d: Date): boolean => {
         const day = d.getDay();
         const SATURDAY = 0;
         const SUNDAY = 6;
 
-        return day !== SATURDAY && day !== SUNDAY && this.holidayFilter(d);
+        return this.holidayFilter(d) && day !== SATURDAY && day !== SUNDAY;
     };
 }
