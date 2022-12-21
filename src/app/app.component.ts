@@ -44,8 +44,6 @@ export class AppComponent {
 
     savePayload() {
         const payloadJSON = JSON.parse(JSON.stringify(this.payload));
-        // TODO: save as Array of objects
-        // payloadJSON.daysMap = Object.fromEntries(this.payload.daysMap);
         const array = Array.from(this.payload.daysMap,
                                  ([ date, type ]) => ({date, type}));
         payloadJSON.daysMap = array;
