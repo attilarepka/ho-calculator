@@ -45,7 +45,10 @@ export class AppComponent {
     savePayload() {
         const payloadJSON = JSON.parse(JSON.stringify(this.payload));
         // TODO: save as Array of objects
-        payloadJSON.daysMap = Object.fromEntries(this.payload.daysMap);
+        // payloadJSON.daysMap = Object.fromEntries(this.payload.daysMap);
+        const array = Array.from(this.payload.daysMap,
+                                 ([ date, type ]) => ({date, type}));
+        payloadJSON.daysMap = array;
         this.fileService.onSave(JSON.stringify(payloadJSON));
     }
 
@@ -54,16 +57,10 @@ export class AppComponent {
         const fileReader = new FileReader();
         fileReader.readAsText(this.selectedFile, "UTF-8");
         fileReader.onload = () => {
-            const payload = JSON.parse(fileReader.result as string);
-            this.payload = payload;
-            // TODO: parse properly
-            Object.keys(payload.daysMap).forEach((x) => {
-                this.payload.daysMap.set(x, payload.daysMap[x]);
-            });
+            const payloadJSON = JSON.parse(fileReader.result as string);
+            this.payload = payloadJSON;
         };
         fileReader.onerror = (error) => { console.log(error); };
-
-        console.log(this.payload);
     }
 
     @HostListener('contextmenu', [ '$event' ])
