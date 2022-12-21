@@ -15,6 +15,25 @@
             <app-mat-calendar-wrapper #calendarChildren (notifyParent)="getNotification($event)" [startMonth]="i" [selectionType]="selectionType" (updateDays)="payload.daysMap"></app-mat-calendar-wrapper>
         </ng-container>
     </div>
+
+    <!-- Total -->
+    <h3>Total</h3>
+    <div class="card-container">
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>150</mat-card-title>
+            <mat-card-subtitle>remaining home office</mat-card-subtitle>
+        </mat-card-header>
+    </mat-card>
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>0</mat-card-title>
+            <mat-card-subtitle>remaining annual leave</mat-card-subtitle>
+        </mat-card-header>
+    </mat-card>
+
+    </div>
+
     <!-- Settings -->
     <h3>Settings</h3>
     <div class="card-container">
