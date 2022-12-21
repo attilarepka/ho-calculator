@@ -1,8 +1,10 @@
 import {
     AfterViewInit,
     Component,
+    ElementRef,
     HostListener,
     QueryList,
+    ViewChild,
     ViewChildren
 } from '@angular/core';
 import {FileSaverService} from 'ngx-filesaver';
@@ -35,6 +37,8 @@ export class AppComponent implements AfterViewInit {
 
     @ViewChildren("calendarChildren")
     calendarChildren: QueryList<MatCalendarWrapperComponent>;
+
+    @ViewChild('fileInput') fileInput: ElementRef;
 
     constructor() {
         this.fileService = new FileServiceComponent(new FileSaverService);
@@ -97,6 +101,8 @@ export class AppComponent implements AfterViewInit {
                 this.notifyChildren();
             };
             fileReader.onerror = (error) => { console.log(error); };
+
+            this.fileInput.nativeElement.value = null;
         }
 
     @HostListener('contextmenu', [ '$event' ])

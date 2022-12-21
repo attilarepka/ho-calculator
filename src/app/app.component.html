@@ -38,7 +38,6 @@
         <button class="card card-small" tabindex="0" (click)="fileInput.click()">
         <mat-icon fontIcon="upload"></mat-icon>
         <span>Load layout</span>
-        <!-- TODO: trigger on every upload event -->
         <input hidden type="file" #fileInput accept=".json" (change)="loadPayload($event)" />
         </button>
         <button class="card card-small" tabindex="0" (click)="resetPayload()">
