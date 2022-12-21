@@ -49,7 +49,9 @@ export class AppComponent implements AfterViewInit {
             homeOfficeLimit : 150,
             daysMap : new Map<string, string>,
             annualLeaveLimit : 0
-        }
+        };
+        this.remaningHomeOffice = this.payload.homeOfficeLimit;
+        this.remaningAnnualLeave = this.payload.annualLeaveLimit;
     }
 
     ngAfterViewInit() {}
@@ -80,8 +82,8 @@ export class AppComponent implements AfterViewInit {
             this.payload.daysMap.clear();
             this.payload.annualLeaveLimit = 0;
             this.payload.homeOfficeLimit = 150;
-            this.remaningHomeOffice = 0;
-            this.remaningAnnualLeave = 0;
+            this.remaningHomeOffice = this.payload.homeOfficeLimit;
+            this.remaningAnnualLeave = this.payload.annualLeaveLimit;
 
             this.notifyChildren();
         }
