@@ -1,6 +1,15 @@
-import {Component, HostListener} from '@angular/core';
+import {
+    AfterViewInit,
+    Component,
+    HostListener,
+    QueryList,
+    ViewChildren
+} from '@angular/core';
 import {FileSaverService} from 'ngx-filesaver';
 
+import {
+    MatCalendarWrapperComponent
+} from './components/mat-calendar-wrapper/mat-calendar-wrapper.component';
 import {
     FileServiceComponent
 } from './services/file-service/file-service.component';
@@ -17,12 +26,15 @@ interface Payload {
     templateUrl : './app.component.html',
     styleUrls : [ './app.component.css' ],
 })
-export class AppComponent {
+export class AppComponent implements AfterViewInit {
     payload: Payload;
     selectionType: string = "homeoffice";
     title = 'ho-calc';
     fileService: any;
     selectedFile: File;
+
+    @ViewChildren("calendarChildren")
+    calendarChildren: QueryList<MatCalendarWrapperComponent>;
 
     constructor() {
         this.fileService = new FileServiceComponent(new FileSaverService);
@@ -33,6 +45,8 @@ export class AppComponent {
             annualLeaveLimit : 0
         }
     }
+
+    ngAfterViewInit() {}
 
     getNotification(event: any) {
         const key = event.key;
@@ -55,8 +69,15 @@ export class AppComponent {
         const fileReader = new FileReader();
         fileReader.readAsText(this.selectedFile, "UTF-8");
         fileReader.onload = () => {
-            const payloadJSON = JSON.parse(fileReader.result as string);
-            this.payload = payloadJSON;
+            const input = JSON.parse(fileReader.result as string);
+            this.payload.currentYear = input.currentYear;
+            this.payload.annualLeaveLimit = input.annualLeaveLimit;
+            this.payload.homeOfficeLimit = input.homeOfficeLimit;
+            input.daysMap.forEach(
+                (key: any) => {this.payload.daysMap.set(key.date, key.type)});
+
+            this.calendarChildren.forEach(
+                (child) => child.updateDaysMap(this.payload.daysMap));
         };
         fileReader.onerror = (error) => { console.log(error); };
     }

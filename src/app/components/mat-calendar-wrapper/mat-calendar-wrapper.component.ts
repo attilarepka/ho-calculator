@@ -6,7 +6,7 @@ import {
     OnChanges,
     Output,
     SimpleChanges,
-    ViewEncapsulation,
+    ViewEncapsulation
 } from '@angular/core';
 
 @Component({
@@ -25,6 +25,16 @@ export class MatCalendarWrapperComponent implements OnChanges {
     calendarStartAt: Date;
 
     constructor() {};
+
+    updateDaysMap(payload: Map<string, string>) {
+        const activeMonth = this.calendarStartAt.getMonth();
+        console.log("callback: ", payload);
+        this.daysMap.clear();
+        payload.forEach((value, key) => {
+            if (new Date(key).getMonth() === activeMonth)
+                this.daysMap.set(key, value);
+        });
+    }
 
     ngOnChanges(changes: SimpleChanges) {
         const date = new Date('2023'); // TODO: set year
