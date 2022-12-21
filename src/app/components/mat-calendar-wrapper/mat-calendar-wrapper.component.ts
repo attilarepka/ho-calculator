@@ -6,6 +6,7 @@ import {
     OnChanges,
     Output,
     SimpleChanges,
+    ViewChild,
     ViewEncapsulation
 } from '@angular/core';
 
@@ -24,16 +25,19 @@ export class MatCalendarWrapperComponent implements OnChanges {
     event: any;
     calendarStartAt: Date;
 
+    @ViewChild("calendar") matCalendar: any;
+
     constructor() {};
 
     updateDaysMap(payload: Map<string, string>) {
         const activeMonth = this.calendarStartAt.getMonth();
-        console.log("callback: ", payload);
         this.daysMap.clear();
         payload.forEach((value, key) => {
             if (new Date(key).getMonth() === activeMonth)
                 this.daysMap.set(key, value);
         });
+
+        this.matCalendar.updateTodaysDate();
     }
 
     ngOnChanges(changes: SimpleChanges) {
