@@ -42,8 +42,9 @@ export class AppComponent {
     }
 
     generatePayload() {
-        const payload = JSON.stringify(this.payload);
-        this.fileService.onSave(payload);
+        const payloadJSON = JSON.parse(JSON.stringify(this.payload));
+        payloadJSON.daysMap = Object.fromEntries(this.payload.daysMap);
+        this.fileService.onSave(JSON.stringify(payloadJSON));
     }
 
     @HostListener('contextmenu', [ '$event' ])
