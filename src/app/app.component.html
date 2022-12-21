@@ -35,12 +35,12 @@
 
     <!-- Sum -->
     <h3>Sum</h3>
-    <div class="card-container">
-    <button class="card card-small" tabindex="0">
+    <div class="card-container"><button class="card card-small" tabindex="0" (click)="fileInput.click()">
         <mat-icon fontIcon="upload"></mat-icon>
         <span>Load layout</span>
+        <input hidden type="file" #fileInput accept=".json" (change)="loadPayload($event)" />
     </button>
-    <button class="card card-small" tabindex="0" (click)="generatePayload()">
+    <button class="card card-small" tabindex="0" (click)="savePayload()">
         <mat-icon fontIcon="save"></mat-icon>
         <span>Save layout</span>
     </button>

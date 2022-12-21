@@ -5,7 +5,7 @@ import {
     FileServiceComponent
 } from './services/file-service/file-service.component';
 
-export interface Payload {
+interface Payload {
     homeOfficeLimit: number;
     annualLeaveLimit: number;
     daysMap: Map<string, string>;
@@ -22,6 +22,7 @@ export class AppComponent {
     selectionType: string = "homeoffice";
     title = 'ho-calc';
     fileService: any;
+    selectedFile: File;
 
     constructor() {
         this.fileService = new FileServiceComponent(new FileSaverService);
@@ -41,10 +42,28 @@ export class AppComponent {
             this.payload.daysMap.set(key, this.selectionType);
     }
 
-    generatePayload() {
+    savePayload() {
         const payloadJSON = JSON.parse(JSON.stringify(this.payload));
+        // TODO: save as Array of objects
         payloadJSON.daysMap = Object.fromEntries(this.payload.daysMap);
         this.fileService.onSave(JSON.stringify(payloadJSON));
+    }
+
+    loadPayload(payload: any) {
+        this.selectedFile = payload.target.files[0];
+        const fileReader = new FileReader();
+        fileReader.readAsText(this.selectedFile, "UTF-8");
+        fileReader.onload = () => {
+            const payload = JSON.parse(fileReader.result as string);
+            this.payload = payload;
+            // TODO: parse properly
+            Object.keys(payload.daysMap).forEach((x) => {
+                this.payload.daysMap.set(x, payload.daysMap[x]);
+            });
+        };
+        fileReader.onerror = (error) => { console.log(error); };
+
+        console.log(this.payload);
     }
 
     @HostListener('contextmenu', [ '$event' ])
