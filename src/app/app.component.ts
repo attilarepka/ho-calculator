@@ -8,9 +8,10 @@ import {Component, HostListener} from '@angular/core';
 export class AppComponent {
     homeOfficeLimit: number = 150;
     annualLeaveLimit: number;
+    daysMap: Map<string, string> = new Map<string, string>();
+    currentYear: number;
     selectionType: string = "homeoffice";
     title = 'ho-calc';
-    daysMap: Map<string, string> = new Map<string, string>();
 
     getNotification(event: any) {
         const key = event.key;
