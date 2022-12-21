@@ -48,39 +48,56 @@ export class AppComponent implements AfterViewInit {
 
     ngAfterViewInit() {}
 
-    getNotification(event: any) {
-        const key = event.key;
-        if (this.payload.daysMap.get(key) == this.selectionType)
-            this.payload.daysMap.delete(key);
-        else
-            this.payload.daysMap.set(key, this.selectionType);
-    }
+    getNotification = (event: any):
+        void => {
+            const key = event.key;
+            if (this.payload.daysMap.get(key) == this.selectionType)
+                this.payload.daysMap.delete(key);
+            else
+                this.payload.daysMap.set(key, this.selectionType);
+        }
 
-    savePayload() {
-        const payloadJSON = JSON.parse(JSON.stringify(this.payload));
-        const array = Array.from(this.payload.daysMap,
-                                 ([ date, type ]) => ({date, type}));
-        payloadJSON.daysMap = array;
-        this.fileService.onSave(JSON.stringify(payloadJSON));
-    }
+    resetPayload = ():
+        void => {
+            this.payload.daysMap.clear();
+            this.payload.annualLeaveLimit = 0;
+            this.payload.homeOfficeLimit = 150;
 
-    loadPayload(payload: any) {
-        this.selectedFile = payload.target.files[0];
-        const fileReader = new FileReader();
-        fileReader.readAsText(this.selectedFile, "UTF-8");
-        fileReader.onload = () => {
-            const input = JSON.parse(fileReader.result as string);
-            this.payload.currentYear = input.currentYear;
-            this.payload.annualLeaveLimit = input.annualLeaveLimit;
-            this.payload.homeOfficeLimit = input.homeOfficeLimit;
-            input.daysMap.forEach(
-                (key: any) => {this.payload.daysMap.set(key.date, key.type)});
+            this.notifyChildren();
+        }
 
+    savePayload = ():
+        void => {
+            const payloadJSON = JSON.parse(JSON.stringify(this.payload));
+            const array = Array.from(this.payload.daysMap,
+                                     ([ date, type ]) => ({date, type}));
+            payloadJSON.daysMap = array;
+            this.fileService.onSave(JSON.stringify(payloadJSON));
+        }
+
+    notifyChildren = ():
+        void => {
             this.calendarChildren.forEach(
                 (child) => child.updateDaysMap(this.payload.daysMap));
-        };
-        fileReader.onerror = (error) => { console.log(error); };
-    }
+        }
+
+    loadPayload = (payload: any):
+        void => {
+            this.selectedFile = payload.target.files[0];
+            const fileReader = new FileReader();
+            fileReader.readAsText(this.selectedFile, "UTF-8");
+            fileReader.onload = () => {
+                const input = JSON.parse(fileReader.result as string);
+                this.payload.currentYear = input.currentYear;
+                this.payload.annualLeaveLimit = input.annualLeaveLimit;
+                this.payload.homeOfficeLimit = input.homeOfficeLimit;
+                input.daysMap.forEach((key: any) => {this.payload.daysMap.set(
+                                          key.date, key.type)});
+
+                this.notifyChildren();
+            };
+            fileReader.onerror = (error) => { console.log(error); };
+        }
 
     @HostListener('contextmenu', [ '$event' ])
     onRightClick(event: {preventDefault: () => void}) {

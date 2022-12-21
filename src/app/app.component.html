@@ -33,17 +33,21 @@
         </form>
     </div>
 
-    <!-- Sum -->
-    <h3>Sum</h3>
-    <div class="card-container"><button class="card card-small" tabindex="0" (click)="fileInput.click()">
+    <!-- Button Operations -->
+    <div class="card-container">
+        <button class="card card-small" tabindex="0" (click)="fileInput.click()">
         <mat-icon fontIcon="upload"></mat-icon>
         <span>Load layout</span>
         <!-- TODO: trigger on every upload event -->
         <input hidden type="file" #fileInput accept=".json" (change)="loadPayload($event)" />
-    </button>
-    <button class="card card-small" tabindex="0" (click)="savePayload()">
+        </button>
+        <button class="card card-small" tabindex="0" (click)="resetPayload()">
+        <mat-icon fontIcon="delete"></mat-icon>
+        <span>Reset layout</span>
+        </button>
+        <button class="card card-small" tabindex="0" (click)="savePayload()">
         <mat-icon fontIcon="save"></mat-icon>
         <span>Save layout</span>
-    </button>
+        </button>
     </div>
 </div>

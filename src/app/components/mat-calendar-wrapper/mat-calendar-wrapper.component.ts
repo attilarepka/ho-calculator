@@ -29,16 +29,17 @@ export class MatCalendarWrapperComponent implements OnChanges {
 
     constructor() {};
 
-    updateDaysMap(payload: Map<string, string>) {
-        const activeMonth = this.calendarStartAt.getMonth();
-        this.daysMap.clear();
-        payload.forEach((value, key) => {
-            if (new Date(key).getMonth() === activeMonth)
-                this.daysMap.set(key, value);
-        });
+    updateDaysMap = (payload: Map<string, string>):
+        void => {
+            const activeMonth = this.calendarStartAt.getMonth();
+            this.daysMap.clear();
+            payload.forEach((value, key) => {
+                if (new Date(key).getMonth() === activeMonth)
+                    this.daysMap.set(key, value);
+            });
 
-        this.matCalendar.updateTodaysDate();
-    }
+            this.matCalendar.updateTodaysDate();
+        }
 
     ngOnChanges(changes: SimpleChanges) {
         const date = new Date('2023'); // TODO: set year
