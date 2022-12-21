@@ -1,4 +1,9 @@
 import {Component, HostListener} from '@angular/core';
+import {FileSaverService} from 'ngx-filesaver';
+
+import {
+    FileServiceComponent
+} from './services/file-service/file-service.component';
 
 @Component({
     selector : 'app-root',
@@ -12,6 +17,11 @@ export class AppComponent {
     currentYear: number;
     selectionType: string = "homeoffice";
     title = 'ho-calc';
+    fileService: any;
+
+    constructor() {
+        this.fileService = new FileServiceComponent(new FileSaverService);
+    }
 
     getNotification(event: any) {
         const key = event.key;
@@ -19,6 +29,11 @@ export class AppComponent {
             this.daysMap.delete(key);
         else
             this.daysMap.set(key, this.selectionType);
+    }
+
+    generatePayload() {
+        const payload = "some payload";
+        this.fileService.onSave(payload);
     }
 
     @HostListener('contextmenu', [ '$event' ])
