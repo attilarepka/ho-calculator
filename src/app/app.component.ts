@@ -30,6 +30,8 @@ interface Payload {
 })
 export class AppComponent implements AfterViewInit {
     payload: Payload;
+    remaningHomeOffice: number;
+    remaningAnnualLeave: number;
     selectionType: string = "homeoffice";
     title = 'ho-calc';
     fileService: any;
@@ -59,6 +61,18 @@ export class AppComponent implements AfterViewInit {
                 this.payload.daysMap.delete(key);
             else
                 this.payload.daysMap.set(key, this.selectionType);
+            let usedHomeOffice = 0;
+            let usedAnnualLeave = 0;
+            this.payload.daysMap.forEach((value) => {
+                if (value === "homeoffice")
+                    usedHomeOffice++;
+                else
+                    ++usedAnnualLeave
+            });
+            this.remaningHomeOffice =
+                this.payload.homeOfficeLimit - usedHomeOffice;
+            this.remaningAnnualLeave =
+                this.payload.annualLeaveLimit - usedAnnualLeave;
         }
 
     resetPayload = ():
@@ -66,6 +80,8 @@ export class AppComponent implements AfterViewInit {
             this.payload.daysMap.clear();
             this.payload.annualLeaveLimit = 0;
             this.payload.homeOfficeLimit = 150;
+            this.remaningHomeOffice = 0;
+            this.remaningAnnualLeave = 0;
 
             this.notifyChildren();
         }
