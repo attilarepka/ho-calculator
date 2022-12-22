@@ -60,10 +60,12 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "ho-calc:build:production"
+              "browserTarget": "ho-calc:build:production",
+              "servePath": "/ho-calculator"
             },
             "development": {
-              "browserTarget": "ho-calc:build:development"
+              "browserTarget": "ho-calc:build:development",
+              "servePath": "/"
             }
           },
           "defaultConfiguration": "development"
