@@ -63,6 +63,12 @@ export class AppComponent implements AfterViewInit {
                 this.payload.daysMap.delete(key);
             else
                 this.payload.daysMap.set(key, this.selectionType);
+
+            this.updateRemainingDays();
+        }
+
+    updateRemainingDays = ():
+        void => {
             let usedHomeOffice = 0;
             let usedAnnualLeave = 0;
             this.payload.daysMap.forEach((value) => {
@@ -116,6 +122,7 @@ export class AppComponent implements AfterViewInit {
                 input.daysMap.forEach((key: any) => {this.payload.daysMap.set(
                                           key.date, key.type)});
 
+                this.updateRemainingDays();
                 this.notifyChildren();
             };
             fileReader.onerror = (error) => { console.log(error); };
