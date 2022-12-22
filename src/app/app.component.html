@@ -40,12 +40,12 @@
         <form class="card-small">
             <mat-form-field>
                 <mat-label>home office limit</mat-label>
-                <input type="number" min="0" name="homeOfficeLimit" matInput [(ngModel)]="payload.homeOfficeLimit" [attr.disabled]="payload.daysMap.size > 0 ? true : null">
+                <input type="number" min="0" name="homeOfficeLimit" matInput [(ngModel)]="payload.homeOfficeLimit" (ngModelChange)="onHomeOfficeLimitChange()" [attr.disabled]="payload.daysMap.size > 0 ? true : null">
                 <mat-hint>home office limit</mat-hint>
             </mat-form-field>
             <mat-form-field>
                 <mat-label>annual leave limit</mat-label>
-                <input type="number" min="0" name="annualLeaveLimit" matInput [(ngModel)]="payload.annualLeaveLimit" [attr.disabled]="payload.daysMap.size > 0 ? true : null">
+                <input type="number" min="0" name="annualLeaveLimit" matInput [(ngModel)]="payload.annualLeaveLimit" (ngModelChange)="onAnnualLeaveLimitChange()" [attr.disabled]="payload.daysMap.size > 0 ? true : null">
                 <mat-hint>annual leave limit</mat-hint>
             </mat-form-field>
         </form>

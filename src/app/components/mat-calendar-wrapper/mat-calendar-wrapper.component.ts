@@ -29,7 +29,7 @@ export class MatCalendarWrapperComponent implements OnChanges {
 
     @ViewChild("calendar") matCalendar: any;
 
-    constructor() { this.isHomeOfficeAllowed = true; }
+    constructor() {}
 
     updateDaysMap = (payload: Map<string, string>):
         void => {
@@ -58,7 +58,6 @@ export class MatCalendarWrapperComponent implements OnChanges {
     };
 
     select = (event: any, calendar: any): void => {
-        console.log("what:", this.isHomeOfficeAllowed);
         const date = event.getFullYear() + '-' +
                      ('00' + (event.getMonth() + 1)).slice(-2) + '-' +
                      ('00' + event.getDate()).slice(-2);
