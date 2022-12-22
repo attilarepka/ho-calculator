@@ -4,7 +4,7 @@
   "compilerOptions": {
     "strictPropertyInitialization": false,
     "noPropertyAccessFromIndexSignature": false,
-    "baseUrl": "./",
+    "baseUrl": "./ho-calculator.github.io/",
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,
     "strict": true,
