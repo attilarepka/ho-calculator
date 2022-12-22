@@ -17,8 +17,8 @@
     </div>
 
     <!-- Total -->
-    <h3>Total</h3>
-    <div class="card-container">
+    <h3 *ngIf="payload.daysMap.size">Total</h3>
+    <div class="card-container" *ngIf="payload.daysMap.size">
     <mat-card>
         <mat-card-header>
             <mat-card-title>{{remaningHomeOffice}}</mat-card-title>
@@ -35,9 +35,8 @@
     </div>
 
     <!-- Settings -->
-    <h3>Settings</h3>
-    <div class="card-container">
-
+    <h3 *ngIf="!payload.daysMap.size">Settings</h3>
+    <div class="card-container" *ngIf="!payload.daysMap.size">
         <form class="card-small">
             <mat-form-field>
                 <mat-label>home office limit</mat-label>
