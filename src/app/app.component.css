@@ -291,3 +291,13 @@
             visibility: hidden;
         }
     }
+
+    .mat-button-homeoffice {
+          background-color: #448AFF !important;
+    }
+    .mat-button-annual {
+        background-color: #8BC34A !important;
+    }
+    .mat-button-neutral {
+        background-color: #E0E0E0 !important;
+    }

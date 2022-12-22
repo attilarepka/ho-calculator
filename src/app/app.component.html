@@ -1,11 +1,14 @@
 <div class="container" (contextmenu)="onRightClick($event)"></div>
-
 <!-- Toolbar -->
 <div class="toolbar" role="banner">
     <div class="spacer" align="center">
         <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(ngModel)]="selectionType">
-            <mat-button-toggle name="annual" value="annual">annual leave</mat-button-toggle>
-            <mat-button-toggle name="homeoffice" value="homeoffice">home office</mat-button-toggle>
+            <mat-button-toggle name="annual" value="annual" [ngClass]="this.selectionType === 'annual' ? 'mat-button-annual' : 'mat-button-neutral'">
+                    annual leave
+            </mat-button-toggle>
+            <mat-button-toggle name="homeoffice" value="homeoffice" [ngClass]="this.selectionType === 'homeoffice' ? 'mat-button-homeoffice' : 'mat-button-neutral'">
+                    home office
+            </mat-button-toggle>
         </mat-button-toggle-group>
     </div>
 </div>
