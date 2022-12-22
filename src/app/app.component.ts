@@ -56,11 +56,19 @@ export class AppComponent implements AfterViewInit {
 
     ngAfterViewInit() {}
 
-    onHomeOfficeLimitChange =
-        (): void => { this.remaningHomeOffice = this.payload.homeOfficeLimit; }
+    onHomeOfficeLimitChange = ():
+        void => {
+            this.payload.homeOfficeLimit =
+                Math.min(Math.max(this.payload.homeOfficeLimit, 0), 365);
+            this.remaningHomeOffice = this.payload.homeOfficeLimit;
+        }
 
     onAnnualLeaveLimitChange = ():
-        void => { this.remaningAnnualLeave = this.payload.annualLeaveLimit; }
+        void => {
+            this.payload.annualLeaveLimit =
+                Math.min(Math.max(this.payload.annualLeaveLimit, 0), 365);
+            this.remaningAnnualLeave = this.payload.annualLeaveLimit;
+        }
 
     getNotification = (event: any):
         void => {
