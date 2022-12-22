@@ -117,6 +117,8 @@ export class AppComponent implements AfterViewInit {
 
     loadPayload = (payload: any):
         void => {
+            this.resetPayload();
+
             this.selectedFile = payload.target.files[0];
             const fileReader = new FileReader();
             fileReader.readAsText(this.selectedFile, "UTF-8");
