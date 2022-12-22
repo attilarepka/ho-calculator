@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "ho-calc": {
+    "ho-calculator": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/ho-calc",
+            "outputPath": "dist/ho-calculator",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": [
@@ -60,11 +60,11 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "ho-calc:build:production",
+              "browserTarget": "ho-calculator:build:production",
               "servePath": "/ho-calculator"
             },
             "development": {
-              "browserTarget": "ho-calc:build:development",
+              "browserTarget": "ho-calculator:build:development",
               "servePath": "/"
             }
           },
@@ -73,7 +73,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "ho-calc:build"
+            "browserTarget": "ho-calculator:build"
           }
         },
         "test": {
