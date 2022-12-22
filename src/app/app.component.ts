@@ -33,7 +33,7 @@ export class AppComponent implements AfterViewInit {
     remaningHomeOffice: number;
     remaningAnnualLeave: number;
     selectionType: string = "homeoffice";
-    title = 'ho-calc';
+    title = 'ho-calculator';
     fileService: any;
     selectedFile: File;
 
