@@ -12,7 +12,7 @@
 <div class="content" role="main">
     <div class="card-container">
         <ng-container *ngFor="let month of [].constructor(12); let i = index">
-            <app-mat-calendar-wrapper #calendarChildren (notifyParent)="getNotification($event)" [startMonth]="i" [selectionType]="selectionType" (updateDays)="payload.daysMap"></app-mat-calendar-wrapper>
+            <app-mat-calendar-wrapper #calendarChildren (notifyParent)="getNotification($event)" [startMonth]="i" [selectionType]="selectionType" [isHomeOfficeAllowed]="remaningHomeOffice > 0" [isAnnualLeaveAllowed]="remaningAnnualLeave > 0" (updateDays)="payload.daysMap"></app-mat-calendar-wrapper>
         </ng-container>
     </div>
 

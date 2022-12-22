@@ -20,6 +20,8 @@ import {
 export class MatCalendarWrapperComponent implements OnChanges {
     @Input() startMonth: number;
     @Input() selectionType: string;
+    @Input() isHomeOfficeAllowed: boolean;
+    @Input() isAnnualLeaveAllowed: boolean;
     @Output() notifyParent: EventEmitter<any> = new EventEmitter();
     daysMap: Map<string, string> = new Map<string, string>();
     event: any;
@@ -27,7 +29,7 @@ export class MatCalendarWrapperComponent implements OnChanges {
 
     @ViewChild("calendar") matCalendar: any;
 
-    constructor() {};
+    constructor() { this.isHomeOfficeAllowed = true; }
 
     updateDaysMap = (payload: Map<string, string>):
         void => {
@@ -56,17 +58,22 @@ export class MatCalendarWrapperComponent implements OnChanges {
     };
 
     select = (event: any, calendar: any): void => {
+        console.log("what:", this.isHomeOfficeAllowed);
         const date = event.getFullYear() + '-' +
                      ('00' + (event.getMonth() + 1)).slice(-2) + '-' +
                      ('00' + event.getDate()).slice(-2);
-        if (this.daysMap.get(date) == this.selectionType)
+        if (this.daysMap.get(date) == this.selectionType) {
             this.daysMap.delete(date);
-        else
+            calendar.updateTodaysDate();
+            this.notifyParent.emit({key : date, value : this.selectionType});
+        } else if ((this.isHomeOfficeAllowed &&
+                    this.selectionType == 'homeoffice') ||
+                   (this.isAnnualLeaveAllowed &&
+                    this.selectionType == 'annual')) {
             this.daysMap.set(date, this.selectionType);
-
-        calendar.updateTodaysDate();
-
-        this.notifyParent.emit({key : date, value : this.selectionType});
+            calendar.updateTodaysDate();
+            this.notifyParent.emit({key : date, value : this.selectionType});
+        }
     };
 
     holidayFilter = (now: Date): boolean => {
