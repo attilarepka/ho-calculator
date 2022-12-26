@@ -1,13 +1,9 @@
-import {Component} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {FileSaverService} from 'ngx-filesaver';
 
-@Component({
-    selector : 'app-file-service',
-    templateUrl : './file-service.component.html',
-    styleUrls : [ './file-service.component.css' ],
-})
-export class FileServiceComponent {
-    fileName: string = "result.json";
+@Injectable({providedIn : 'root'})
+export class FileServeService {
+    fileName: string = 'result.json';
 
     constructor(private _FileSaverService: FileSaverService) {}
 

@@ -13,8 +13,8 @@ import {
     MatCalendarWrapperComponent
 } from './components/mat-calendar-wrapper/mat-calendar-wrapper.component';
 import {
-    FileServiceComponent
-} from './services/file-service/file-service.component';
+    FileServeService
+} from './services/file-serve.service'
 
 interface Payload {
     homeOfficeLimit: number;
@@ -43,7 +43,7 @@ export class AppComponent implements AfterViewInit {
     @ViewChild('fileInput') fileInput: ElementRef;
 
     constructor() {
-        this.fileService = new FileServiceComponent(new FileSaverService);
+        this.fileService = new FileServeService(new FileSaverService);
         this.payload = {
             currentYear : 2023,
             homeOfficeLimit : 150,

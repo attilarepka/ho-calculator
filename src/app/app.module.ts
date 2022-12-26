@@ -10,13 +10,9 @@ import {
     MatCalendarWrapperComponent
 } from './components/mat-calendar-wrapper/mat-calendar-wrapper.component';
 import {MaterialModule} from './material-module';
-import {
-    FileServiceComponent
-} from './services/file-service/file-service.component';
 
 @NgModule({
-    declarations :
-        [ AppComponent, MatCalendarWrapperComponent, FileServiceComponent ],
+    declarations : [ AppComponent, MatCalendarWrapperComponent ],
     imports : [
         BrowserModule, MaterialModule, BrowserAnimationsModule, MatIconModule,
         FileSaverModule, FormsModule
