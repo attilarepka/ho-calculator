@@ -30,15 +30,15 @@ interface Payload {
 })
 export class AppComponent implements AfterViewInit {
     payload: Payload;
-    remaningHomeOffice: number;
-    remaningAnnualLeave: number;
+    remainingHomeOffice: number;
+    remainingAnnualLeave: number;
     selectionType: string = "homeoffice";
     title = 'ho-calculator';
     fileService: any;
     selectedFile: File;
 
-    @ViewChildren("calendarChildren")
-    calendarChildren: QueryList<MatCalendarWrapperComponent>;
+    @ViewChildren("calendarChild")
+    calendarChild: QueryList<MatCalendarWrapperComponent>;
 
     @ViewChild('fileInput') fileInput: ElementRef;
 
@@ -50,8 +50,8 @@ export class AppComponent implements AfterViewInit {
             daysMap : new Map<string, string>,
             annualLeaveLimit : 0
         };
-        this.remaningHomeOffice = this.payload.homeOfficeLimit;
-        this.remaningAnnualLeave = this.payload.annualLeaveLimit;
+        this.remainingHomeOffice = this.payload.homeOfficeLimit;
+        this.remainingAnnualLeave = this.payload.annualLeaveLimit;
     }
 
     ngAfterViewInit() {}
@@ -60,14 +60,14 @@ export class AppComponent implements AfterViewInit {
         void => {
             this.payload.homeOfficeLimit =
                 Math.min(Math.max(this.payload.homeOfficeLimit, 0), 365);
-            this.remaningHomeOffice = this.payload.homeOfficeLimit;
+            this.remainingHomeOffice = this.payload.homeOfficeLimit;
         }
 
     onAnnualLeaveLimitChange = ():
         void => {
             this.payload.annualLeaveLimit =
                 Math.min(Math.max(this.payload.annualLeaveLimit, 0), 365);
-            this.remaningAnnualLeave = this.payload.annualLeaveLimit;
+            this.remainingAnnualLeave = this.payload.annualLeaveLimit;
         }
 
     getNotification = (event: any):
@@ -91,9 +91,9 @@ export class AppComponent implements AfterViewInit {
                 else
                     ++usedAnnualLeave
             });
-            this.remaningHomeOffice =
+            this.remainingHomeOffice =
                 this.payload.homeOfficeLimit - usedHomeOffice;
-            this.remaningAnnualLeave =
+            this.remainingAnnualLeave =
                 this.payload.annualLeaveLimit - usedAnnualLeave;
         }
 
@@ -102,8 +102,8 @@ export class AppComponent implements AfterViewInit {
             this.payload.daysMap.clear();
             this.payload.annualLeaveLimit = 0;
             this.payload.homeOfficeLimit = 150;
-            this.remaningHomeOffice = this.payload.homeOfficeLimit;
-            this.remaningAnnualLeave = this.payload.annualLeaveLimit;
+            this.remainingHomeOffice = this.payload.homeOfficeLimit;
+            this.remainingAnnualLeave = this.payload.annualLeaveLimit;
 
             this.notifyChildren();
         }
@@ -119,7 +119,7 @@ export class AppComponent implements AfterViewInit {
 
     notifyChildren = ():
         void => {
-            this.calendarChildren.forEach(
+            this.calendarChild.forEach(
                 (child) => child.updateDaysMap(this.payload.daysMap));
         }
 

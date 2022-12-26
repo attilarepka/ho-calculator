@@ -19,7 +19,7 @@ import {
         [ AppComponent, MatCalendarWrapperComponent, FileServiceComponent ],
     imports : [
         BrowserModule, MaterialModule, BrowserAnimationsModule, MatIconModule,
-        FormsModule, FileSaverModule
+        FileSaverModule, FormsModule
     ],
     providers : [],
     bootstrap : [ AppComponent ]

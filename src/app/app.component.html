@@ -14,8 +14,8 @@
 </div>
 <div class="content" role="main">
     <div class="card-container">
-        <ng-container *ngFor="let month of [].constructor(12); let i = index">
-            <app-mat-calendar-wrapper #calendarChildren (notifyParent)="getNotification($event)" [startMonth]="i" [selectionType]="selectionType" [isHomeOfficeAllowed]="remaningHomeOffice > 0" [isAnnualLeaveAllowed]="remaningAnnualLeave > 0" (updateDays)="payload.daysMap"></app-mat-calendar-wrapper>
+        <ng-container *ngFor="let _ of [].constructor(12); let i = index">
+            <app-mat-calendar-wrapper #calendarChild (notifyParent)="getNotification($event)" [startMonth]="i" [selectionType]="selectionType" [isHomeOfficeAllowed]="remainingHomeOffice > 0" [isAnnualLeaveAllowed]="remainingAnnualLeave > 0" (updateDays)="payload.daysMap"></app-mat-calendar-wrapper>
         </ng-container>
     </div>
 
@@ -24,13 +24,13 @@
     <div class="card-container" *ngIf="payload.daysMap.size">
     <mat-card>
         <mat-card-header>
-            <mat-card-title>{{remaningHomeOffice}}</mat-card-title>
+            <mat-card-title>{{remainingHomeOffice}}</mat-card-title>
             <mat-card-subtitle>remaining home office</mat-card-subtitle>
         </mat-card-header>
     </mat-card>
     <mat-card>
         <mat-card-header>
-            <mat-card-title>{{remaningAnnualLeave}}</mat-card-title>
+            <mat-card-title>{{remainingAnnualLeave}}</mat-card-title>
             <mat-card-subtitle>remaining annual leave</mat-card-subtitle>
         </mat-card-header>
     </mat-card>
