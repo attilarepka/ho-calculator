@@ -2,11 +2,11 @@
 <!-- Toolbar -->
 <div class="toolbar" role="banner">
     <div class="spacer" align="center">
-        <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [(ngModel)]="selectionType">
-            <mat-button-toggle name="annual" value="annual" [ngClass]="this.selectionType === 'annual' ? 'mat-button-annual' : 'mat-button-neutral'">
+        <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [ngModel]="appService.getSelectionType()" (ngModelChange)="appService.setSelectionType($event)">
+            <mat-button-toggle name="annual" value="annual" [ngClass]="appService.getSelectionType() === 'annual' ? 'mat-button-annual' : 'mat-button-neutral'">
                     annual leave
             </mat-button-toggle>
-            <mat-button-toggle name="homeoffice" value="homeoffice" [ngClass]="this.selectionType === 'homeoffice' ? 'mat-button-homeoffice' : 'mat-button-neutral'">
+            <mat-button-toggle name="homeoffice" value="homeoffice" [ngClass]="appService.getSelectionType() === 'homeoffice' ? 'mat-button-homeoffice' : 'mat-button-neutral'">
                     home office
             </mat-button-toggle>
         </mat-button-toggle-group>
@@ -15,40 +15,39 @@
 <div class="content" role="main">
     <div class="card-container">
         <ng-container *ngFor="let _ of [].constructor(12); let i = index">
-            <app-mat-calendar-wrapper #calendarChild (notifyParent)="getNotification($event)" [startMonth]="i" [selectionType]="selectionType" [isHomeOfficeAllowed]="remainingHomeOffice > 0" [isAnnualLeaveAllowed]="remainingAnnualLeave > 0" (updateDays)="payload.daysMap"></app-mat-calendar-wrapper>
+            <app-mat-calendar-wrapper #calendarChild (notifyParent)="appService.setSelectedDay($event)" [startMonth]="i" [selectionType]="appService.getSelectionType()" [isHomeOfficeAllowed]="appService.isHomeOfficeAllowed()" [isAnnualLeaveAllowed]="appService.isAnnualLeaveAllowed()" (updateDays)="appService.getDaysMap()"></app-mat-calendar-wrapper>
         </ng-container>
     </div>
 
     <!-- Total -->
-    <h3 *ngIf="payload.daysMap.size">Total</h3>
-    <div class="card-container" *ngIf="payload.daysMap.size">
+    <h3 *ngIf="appService.hasDaySelection()">Total</h3>
+    <div class="card-container" *ngIf="appService.hasDaySelection()">
     <mat-card>
         <mat-card-header>
-            <mat-card-title>{{remainingHomeOffice}}</mat-card-title>
+            <mat-card-title>{{appService.getRemainingHomeOffice()}}</mat-card-title>
             <mat-card-subtitle>remaining home office</mat-card-subtitle>
         </mat-card-header>
     </mat-card>
     <mat-card>
         <mat-card-header>
-            <mat-card-title>{{remainingAnnualLeave}}</mat-card-title>
+            <mat-card-title>{{appService.getRemainingAnnualLeave()}}</mat-card-title>
             <mat-card-subtitle>remaining annual leave</mat-card-subtitle>
         </mat-card-header>
     </mat-card>
-
     </div>
 
     <!-- Settings -->
-    <h3 *ngIf="!payload.daysMap.size">Settings</h3>
-    <div class="card-container" *ngIf="!payload.daysMap.size">
+    <h3 *ngIf="!appService.hasDaySelection()">Settings</h3>
+    <div class="card-container" *ngIf="!appService.hasDaySelection()">
         <form class="card-small">
             <mat-form-field>
                 <mat-label>home office limit</mat-label>
-                <input type="number" min="0" max="365" name="homeOfficeLimit" matInput [(ngModel)]="payload.homeOfficeLimit" (ngModelChange)="onHomeOfficeLimitChange()" [attr.disabled]="payload.daysMap.size > 0 ? true : null">
+                <input type="number" min="0" max="365" name="homeOfficeLimit" matInput [ngModel]="appService.getHomeOfficeLimit()" (ngModelChange)="appService.setHomeOfficeLimit($event)" [attr.disabled]="appService.hasDaySelection() ? true : null">
                 <mat-hint>home office limit</mat-hint>
             </mat-form-field>
             <mat-form-field>
                 <mat-label>annual leave limit</mat-label>
-                <input type="number" min="0" max="365" name="annualLeaveLimit" matInput [(ngModel)]="payload.annualLeaveLimit" (ngModelChange)="onAnnualLeaveLimitChange()" [attr.disabled]="payload.daysMap.size > 0 ? true : null">
+                <input type="number" min="0" max="365" name="annualLeaveLimit" matInput [ngModel]="appService.getAnnualLeaveLimit()" (ngModelChange)="appService.setAnnualLeaveLimit($event)" [attr.disabled]="appService.hasDaySelection() ? true : null">
                 <mat-hint>annual leave limit</mat-hint>
             </mat-form-field>
         </form>
@@ -61,11 +60,11 @@
         <span>Load layout</span>
         <input hidden type="file" #fileInput accept=".json" (change)="loadPayload($event)" />
         </button>
-        <button class="card card-small" tabindex="0" (click)="resetPayload()">
+        <button class="card card-small" tabindex="0" (click)="reset()">
         <mat-icon fontIcon="delete"></mat-icon>
         <span>Reset layout</span>
         </button>
-        <button class="card card-small" tabindex="0" (click)="savePayload()">
+        <button class="card card-small" tabindex="0" (click)="appService.save()">
         <mat-icon fontIcon="save"></mat-icon>
         <span>Save layout</span>
         </button>
