@@ -1,7 +1,7 @@
 <div (click)="$event.stopPropagation()">
     <mat-card class="inline-calendar-card">
         <mat-calendar #calendar (selectedChange)="select($event,calendar)" [dateFilter]="weekendsDatesFilter"
-            [dateClass]="isSelected" startView="month" [startAt]="calendarStartAt">
+            [dateClass]="isSelected" startView="month">
         </mat-calendar>
     </mat-card>
 </div>

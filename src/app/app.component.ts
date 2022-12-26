@@ -1,5 +1,6 @@
 import {
     AfterViewInit,
+    ChangeDetectorRef,
     Component,
     ElementRef,
     HostListener,
@@ -7,6 +8,7 @@ import {
     ViewChild,
     ViewChildren
 } from '@angular/core';
+import {MatDatepicker} from '@angular/material/datepicker';
 
 import {
     MatCalendarWrapperComponent
@@ -20,16 +22,23 @@ import {AppService} from './services/app.service';
 })
 export class AppComponent implements AfterViewInit {
     title = 'ho-calculator'; // can be removed
-    appService: any;
+    selectedYear: number;
 
     @ViewChildren("calendarChild")
     calendarChild: QueryList<MatCalendarWrapperComponent>;
 
     @ViewChild('fileInput') fileInput: ElementRef;
+    @ViewChild('yearPicker', {static : false})
+    private yearPicker!: MatDatepicker<Date>;
 
-    constructor() { this.appService = new AppService(); }
+    constructor(public appService: AppService, private cdr: ChangeDetectorRef) {
+    }
 
-    ngAfterViewInit() {}
+    ngAfterViewInit() {
+        this.notifyChildYearChange();
+        this.notifyChildren();
+        this.cdr.detectChanges();
+    }
 
     reset = ():
         void => {
@@ -42,14 +51,39 @@ export class AppComponent implements AfterViewInit {
             (child) => child.updateDaysMap(this.appService.getDaysMap()));
     };
 
+    notifyChildYearChange = (): void => {
+        this.calendarChild.forEach((child) => child.updateCalendarStartDate());
+    };
+
+    notifyChildPublicHolidayChange = (): void => {
+        this.calendarChild.forEach((child) => child.updatePublicHolidays(
+                                       this.appService.getPublicHolidays()));
+    };
+
+    generateCalendar = async(): Promise<void> => {
+        await this.appService.setPublicHolidays();
+        this.notifyChildYearChange();
+        this.notifyChildPublicHolidayChange();
+        this.notifyChildren();
+    };
+
     loadPayload = async(payload: any): Promise<void> => {
         this.reset();
 
         await this.appService.load(payload);
+        await this.appService.setPublicHolidays();
 
+        this.notifyChildYearChange();
+        this.notifyChildPublicHolidayChange();
         this.notifyChildren();
 
         this.fileInput.nativeElement.value = null;
+    };
+
+    onYearSelected = (ev: Date): void => {
+        const yearSelected = ev.getFullYear();
+        this.appService.setCurrentYear(yearSelected);
+        this.yearPicker.close()
     };
 
     @HostListener('contextmenu', [ '$event' ])

@@ -22,32 +22,39 @@ export class MatCalendarWrapperComponent implements OnChanges {
     @Input() selectionType: string;
     @Input() isHomeOfficeAllowed: boolean;
     @Input() isAnnualLeaveAllowed: boolean;
+    @Input() startYearDate: number;
+    @Input() publicHolidays: Array<any>;
     @Output() notifyParent: EventEmitter<any> = new EventEmitter();
     daysMap: Map<string, string> = new Map<string, string>();
     event: any;
-    calendarStartAt: Date;
+    calendarStartDate: Date;
 
-    @ViewChild("calendar") matCalendar: any;
+    @ViewChild('calendar') matCalendar: any;
 
     constructor() {}
 
-    updateDaysMap = (payload: Map<string, string>):
-        void => {
-            const activeMonth = this.calendarStartAt.getMonth();
-            this.daysMap.clear();
-            payload.forEach((value, key) => {
-                if (new Date(key).getMonth() === activeMonth)
-                    this.daysMap.set(key, value);
-            });
+    updateDaysMap = (payload: Map<string, string>): void => {
+        const activeMonth = this.calendarStartDate.getMonth();
+        this.daysMap.clear();
+        payload.forEach((value, key) => {
+            if (new Date(key).getMonth() === activeMonth)
+                this.daysMap.set(key, value);
+        });
 
-            this.matCalendar.updateTodaysDate();
-        }
-
-    ngOnChanges(changes: SimpleChanges) {
-        const date = new Date('2023'); // TODO: set year
-        date.setMonth(this.startMonth);
-        this.calendarStartAt = date;
+        this.matCalendar.updateTodaysDate();
+        this.matCalendar._goToDateInView(this.calendarStartDate, 'month');
     };
+
+    updateCalendarStartDate = (): void => {
+        const currentDate = new Date(this.startYearDate, 0);
+        currentDate.setMonth(this.startMonth);
+        this.calendarStartDate = currentDate;
+    };
+
+    updatePublicHolidays =
+        (holidays: Array<any>): void => { this.publicHolidays = holidays; };
+
+    ngOnChanges(changes: SimpleChanges) {}
 
     isSelected = (event: any) => {
         const date = event.getFullYear() + '-' +
@@ -76,160 +83,14 @@ export class MatCalendarWrapperComponent implements OnChanges {
     };
 
     holidayFilter = (now: Date): boolean => {
-        const holidayAPI = [
-            {
-                date : '2023-01-01',
-                localName : 'Újév',
-                name : "New Year's Day",
-                countryCode : 'HU',
-                fixed : true,
-                global : true,
-                counties : null,
-                launchYear : null,
-                types : [ 'Public' ],
-            },
-            {
-                date : '2023-03-15',
-                localName : 'Nemzeti ünnep',
-                name : '1848 Revolution Memorial Day',
-                countryCode : 'HU',
-                fixed : true,
-                global : true,
-                counties : null,
-                launchYear : null,
-                types : [ 'Public' ],
-            },
-            {
-                date : '2023-04-07',
-                localName : 'Nagypéntek',
-                name : 'Good Friday',
-                countryCode : 'HU',
-                fixed : false,
-                global : true,
-                counties : null,
-                launchYear : null,
-                types : [ 'Public' ],
-            },
-            {
-                date : '2023-04-09',
-                localName : 'Húsvétvasárnap',
-                name : 'Easter Sunday',
-                countryCode : 'HU',
-                fixed : false,
-                global : true,
-                counties : null,
-                launchYear : null,
-                types : [ 'Public' ],
-            },
-            {
-                date : '2023-04-10',
-                localName : 'Húsvéthétfő',
-                name : 'Easter Monday',
-                countryCode : 'HU',
-                fixed : false,
-                global : true,
-                counties : null,
-                launchYear : null,
-                types : [ 'Public' ],
-            },
-            {
-                date : '2023-05-01',
-                localName : 'A munka ünnepe',
-                name : 'Labour day',
-                countryCode : 'HU',
-                fixed : true,
-                global : true,
-                counties : null,
-                launchYear : null,
-                types : [ 'Public' ],
-            },
-            {
-                date : '2023-05-28',
-                localName : 'Pünkösdvasárnap',
-                name : 'Pentecost',
-                countryCode : 'HU',
-                fixed : false,
-                global : true,
-                counties : null,
-                launchYear : null,
-                types : [ 'Public' ],
-            },
-            {
-                date : '2023-05-29',
-                localName : 'Pünkösdhétfő',
-                name : 'Whit Monday',
-                countryCode : 'HU',
-                fixed : false,
-                global : true,
-                counties : null,
-                launchYear : null,
-                types : [ 'Public' ],
-            },
-            {
-                date : '2023-08-20',
-                localName : 'Az államalapítás ünnepe',
-                name : 'State Foundation Day',
-                countryCode : 'HU',
-                fixed : true,
-                global : true,
-                counties : null,
-                launchYear : null,
-                types : [ 'Public' ],
-            },
-            {
-                date : '2023-10-23',
-                localName : 'Nemzeti ünnep',
-                name : '1956 Revolution Memorial Day',
-                countryCode : 'HU',
-                fixed : true,
-                global : true,
-                counties : null,
-                launchYear : null,
-                types : [ 'Public' ],
-            },
-            {
-                date : '2023-11-01',
-                localName : 'Mindenszentek',
-                name : 'All Saints Day',
-                countryCode : 'HU',
-                fixed : true,
-                global : true,
-                counties : null,
-                launchYear : null,
-                types : [ 'Public' ],
-            },
-            {
-                date : '2023-12-25',
-                localName : 'Karácsony',
-                name : 'Christmas Day',
-                countryCode : 'HU',
-                fixed : true,
-                global : true,
-                counties : null,
-                launchYear : null,
-                types : [ 'Public' ],
-            },
-            {
-                date : '2023-12-26',
-                localName : 'Karácsony másnapja',
-                name : "St. Stephen's Day",
-                countryCode : 'HU',
-                fixed : true,
-                global : true,
-                counties : null,
-                launchYear : null,
-                types : [ 'Public' ],
-            },
-        ];
-        // TODO:
-        // make API call
-        // https://date.nager.at/api/v3/publicholidays/2023/HU
-
+        if (this.publicHolidays === undefined)
+            return true;
         const nowOffset =
             new Date(now.getTime() - now.getTimezoneOffset() * 60 * 1000);
         const nowStr = nowOffset.toISOString().split('T')[0];
 
-        return !holidayAPI.some((e) => nowStr === e.date);
+        return !this.publicHolidays.some((e: {date: string}) =>
+                                             nowStr === e.date);
     };
 
     weekendsDatesFilter = (d: Date): boolean => {

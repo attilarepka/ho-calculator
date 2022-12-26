@@ -1,7 +1,7 @@
 <div class="container" (contextmenu)="onRightClick($event)"></div>
 <!-- Toolbar -->
 <div class="toolbar" role="banner">
-    <div class="spacer" align="center">
+    <div class="spacer" align="center"> <!-- TODO: hide -->
         <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [ngModel]="appService.getSelectionType()" (ngModelChange)="appService.setSelectionType($event)">
             <mat-button-toggle name="annual" value="annual" [ngClass]="appService.getSelectionType() === 'annual' ? 'mat-button-annual' : 'mat-button-neutral'">
                     annual leave
@@ -13,13 +13,14 @@
     </div>
 </div>
 <div class="content" role="main">
-    <div class="card-container">
+    <div class="card-container"> <!-- TODO: hide -->
         <ng-container *ngFor="let _ of [].constructor(12); let i = index">
-            <app-mat-calendar-wrapper #calendarChild (notifyParent)="appService.setSelectedDay($event)" [startMonth]="i" [selectionType]="appService.getSelectionType()" [isHomeOfficeAllowed]="appService.isHomeOfficeAllowed()" [isAnnualLeaveAllowed]="appService.isAnnualLeaveAllowed()" (updateDays)="appService.getDaysMap()"></app-mat-calendar-wrapper>
+            <app-mat-calendar-wrapper #calendarChild (notifyParent)="appService.setSelectedDay($event)" [publicHolidays]="appService.getPublicHolidays()" [startYearDate]="appService.getCurrentYear()" [startMonth]="i" [selectionType]="appService.getSelectionType()" [isHomeOfficeAllowed]="appService.isHomeOfficeAllowed()" [isAnnualLeaveAllowed]="appService.isAnnualLeaveAllowed()"></app-mat-calendar-wrapper>
         </ng-container>
     </div>
 
     <!-- Total -->
+    <br>
     <h3 *ngIf="appService.hasDaySelection()">Total</h3>
     <div class="card-container" *ngIf="appService.hasDaySelection()">
     <mat-card>
@@ -40,6 +41,21 @@
     <h3 *ngIf="!appService.hasDaySelection()">Settings</h3>
     <div class="card-container" *ngIf="!appService.hasDaySelection()">
         <form class="card-small">
+        <mat-form-field>
+            <input matInput type="number" name="currentYear" matInput [ngModel]="appService.getCurrentYear()"
+                [attr.disabled]="appService.hasDaySelection() ? true : null" (click)="yearPicker.open()">
+            <input matInput hidden [matDatepickerFilter]="appService.yearFilter" [matDatepicker]="yearPicker">
+            <mat-label>current year</mat-label>
+            <mat-hint>current year</mat-hint>
+            <mat-datepicker #yearPicker startView="multi-year" (yearSelected)="onYearSelected($event)"> <!-- TODO: override somehow other CSS to have header -->
+            </mat-datepicker>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>locale</mat-label>
+                <input type="text" name="dateLocale" matInput [ngModel]="appService.getLocale()" (ngModelChange)="appService.setLocale($event)" [attr.disabled]="appService.hasDaySelection() ? true : null">
+                <mat-hint>locale</mat-hint>
+            </mat-form-field>
+            <br>
             <mat-form-field>
                 <mat-label>home office limit</mat-label>
                 <input type="number" min="0" max="365" name="homeOfficeLimit" matInput [ngModel]="appService.getHomeOfficeLimit()" (ngModelChange)="appService.setHomeOfficeLimit($event)" [attr.disabled]="appService.hasDaySelection() ? true : null">
@@ -50,10 +66,18 @@
                 <input type="number" min="0" max="365" name="annualLeaveLimit" matInput [ngModel]="appService.getAnnualLeaveLimit()" (ngModelChange)="appService.setAnnualLeaveLimit($event)" [attr.disabled]="appService.hasDaySelection() ? true : null">
                 <mat-hint>annual leave limit</mat-hint>
             </mat-form-field>
+            <div class="card-container">
+            <!-- TODO: disable button style when button is disabled -->
+            <button class="card card-small" name="generateCalendar" (click)="generateCalendar()" [disabled]="!appService.isStartable()">
+                <mat-icon fontIcon="play_arrow"></mat-icon>
+                <span>Generate Calendar</span>
+            </button>
+            </div>
         </form>
     </div>
 
     <!-- Button Operations -->
+    <br>
     <div class="card-container">
         <button class="card card-small" tabindex="0" (click)="fileInput.click()">
         <mat-icon fontIcon="upload"></mat-icon>

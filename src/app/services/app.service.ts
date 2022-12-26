@@ -1,13 +1,14 @@
 import {Injectable} from '@angular/core';
-import {FileSaverService} from 'ngx-filesaver';
 
 import {FileServeService} from './file-serve.service';
+import {HolidayApiService} from './holiday-api.service';
 
 interface Payload {
     homeOfficeLimit: number;
     annualLeaveLimit: number;
     daysMap: Map<string, string>;
     currentYear: number;
+    locale: string;
 }
 
 @Injectable({providedIn : 'root'})
@@ -16,14 +17,18 @@ export class AppService {
     remainingHomeOffice: number;
     remainingAnnualLeave: number;
     selectionType: string = 'homeoffice';
-    fileService: any;
-    selectedFile: File; // can be moved to fileService
+    selectedFile: File;
 
-    constructor() {
-        this.fileService = new FileServeService(new FileSaverService());
+    readonly max_age_delta: number = 10;
+
+    publicHolidays: any;
+
+    constructor(private fileService: FileServeService,
+                private apiService: HolidayApiService) {
 
         this.payload = {
-            currentYear : 2023,
+            currentYear : 2023, // new Date(), // TODO: dynamic year
+            locale : "",
             homeOfficeLimit : 150,
             daysMap : new Map<string, string>(),
             annualLeaveLimit : 0,
@@ -31,6 +36,31 @@ export class AppService {
         this.remainingHomeOffice = this.payload.homeOfficeLimit;
         this.remainingAnnualLeave = this.payload.annualLeaveLimit;
     }
+
+    setPublicHolidays = async(): Promise<void> => {
+        if (this.payload.currentYear !== undefined &&
+            this.payload.locale !== "") {
+            this.publicHolidays = await this.apiService.getHolidays(
+                this.payload.currentYear, this.payload.locale);
+        }
+    };
+
+    getPublicHolidays = (): Array<any> => { return this.publicHolidays; };
+
+    isStartable = (): boolean => {
+        // TODO: proper starting
+        return this.payload.currentYear !== undefined &&
+               this.payload.locale !== "";
+    };
+
+    setLocale = (locale: string): void => { this.payload.locale = locale; };
+
+    getLocale = (): string => { return this.payload.locale; };
+
+    setCurrentYear =
+        (year: number): void => { this.payload.currentYear = year; };
+
+    getCurrentYear = (): number => { return this.payload.currentYear; };
 
     setHomeOfficeLimit = (limit: number): void => {
         this.payload.homeOfficeLimit = Math.min(Math.max(limit, 0), 365);
@@ -95,6 +125,7 @@ export class AppService {
                 this.payload.currentYear = input.currentYear;
                 this.payload.annualLeaveLimit = input.annualLeaveLimit;
                 this.payload.homeOfficeLimit = input.homeOfficeLimit;
+                this.payload.locale = input.locale;
                 input.daysMap.forEach((key: any) => {
                     this.payload.daysMap.set(key.date, key.type);
                 });
@@ -113,10 +144,10 @@ export class AppService {
         let usedHomeOffice = 0;
         let usedAnnualLeave = 0;
         this.payload.daysMap.forEach((value) => {
-            if (value === "homeoffice")
+            if (value === 'homeoffice')
                 usedHomeOffice++;
             else
-                ++usedAnnualLeave
+                ++usedAnnualLeave;
         });
         this.remainingHomeOffice =
             this.payload.homeOfficeLimit - usedHomeOffice;
@@ -132,5 +163,15 @@ export class AppService {
             this.payload.daysMap.set(key, this.selectionType);
 
         this.updateRemainingDays();
+    };
+
+    yearFilter = (d: Date|null): boolean => {
+        const year = d?.getFullYear();
+        if (year === undefined)
+            return true;
+        const now = new Date().getFullYear();
+
+        return (now + this.max_age_delta) >= year &&
+               (now - this.max_age_delta) <= year;
     };
 }

@@ -1,3 +1,4 @@
+import {HttpClientModule} from '@angular/common/http';
 import {NgModule} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {MatIconModule} from '@angular/material/icon';
@@ -15,7 +16,7 @@ import {MaterialModule} from './material-module';
     declarations : [ AppComponent, MatCalendarWrapperComponent ],
     imports : [
         BrowserModule, MaterialModule, BrowserAnimationsModule, MatIconModule,
-        FileSaverModule, FormsModule
+        FileSaverModule, FormsModule, HttpClientModule
     ],
     providers : [],
     bootstrap : [ AppComponent ]
