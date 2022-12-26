@@ -9,6 +9,11 @@
   background-color: #8BC34A !important;
   border-radius: 50%
 }
+.mat-calendar-body-disabled
+{
+  background-color: #B4B4B4 !important;
+  border-radius: 20%
+}
 .drop-calendar
 {
   width:30rem
