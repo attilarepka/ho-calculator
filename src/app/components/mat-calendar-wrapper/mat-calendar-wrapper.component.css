@@ -1,27 +1,32 @@
 /** No CSS for this example */
-.mat-calendar-body-cell.homeoffice
-{
-  background-color: #448AFF !important;
-  border-radius: 50%
+.mat-calendar-body-cell.homeoffice {
+    background-color: #448AFF !important;
+    border-radius: 50%
 }
-.mat-calendar-body-cell.annual
-{
-  background-color: #8BC34A !important;
-  border-radius: 50%
+
+.mat-calendar-body-cell.annual {
+    background-color: #8BC34A !important;
+    border-radius: 50%
 }
-.mat-calendar-body-disabled
-{
-  background-color: #B4B4B4 !important;
-  border-radius: 20%
+
+.mat-calendar-body-disabled {
+    background-color: #B4B4B4 !important;
+    border-radius: 20%
 }
-.drop-calendar
-{
-  width:30rem
+
+.drop-calendar {
+    width: 30rem
 }
+
 .inline-calendar-card {
-  width: 240px;
-  height: 230px;
+    width: 240px;
+    height: 230px;
 }
-.mat-calendar-header{
-  display: none;
+
+.mat-calendar-header {
+    display: none;
+}
+
+.mat-focus-indicator::before {
+    border-color: transparent !important;
 }

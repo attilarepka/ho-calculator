@@ -1,0 +1,20 @@
+.datepickerOne {
+  background: lightgreen;
+}
+
+.datepickerOne .mat-calendar-body-active {
+    color: red;
+    background-color: blue;
+}
+
+.datepickerOne .mat-calendar-header
+{
+  display: none;
+}
+
+.datepickerOne .mat-calendar-body-disabled
+{
+  background-color: #B4B4B4;
+  border-radius: 20%
+}
+

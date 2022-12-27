@@ -19,16 +19,17 @@ export class AppService {
     selectionType: string = 'homeoffice';
     selectedFile: File;
 
-    readonly max_age_delta: number = 10;
+    readonly max_age_delta: number = 5;
 
     publicHolidays: any;
+    availableCountries: any;
 
     constructor(private fileService: FileServeService,
                 private apiService: HolidayApiService) {
 
         this.payload = {
-            currentYear : 2023, // new Date(), // TODO: dynamic year
-            locale : "",
+            currentYear : new Date().getFullYear(),
+            locale : "HU",
             homeOfficeLimit : 150,
             daysMap : new Map<string, string>(),
             annualLeaveLimit : 0,
@@ -46,6 +47,15 @@ export class AppService {
     };
 
     getPublicHolidays = (): Array<any> => { return this.publicHolidays; };
+
+    setAvailableCountries = async(): Promise<void> => {
+        if (!this.availableCountries)
+            this.availableCountries =
+                await this.apiService.getAvailableCountries();
+    };
+
+    getAvailableCountries =
+        (): Array<any> => { return this.availableCountries; };
 
     isStartable = (): boolean => {
         // TODO: proper starting

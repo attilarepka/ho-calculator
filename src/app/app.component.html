@@ -23,36 +23,41 @@
     <br>
     <h3 *ngIf="appService.hasDaySelection()">Total</h3>
     <div class="card-container" *ngIf="appService.hasDaySelection()">
-    <mat-card>
-        <mat-card-header>
-            <mat-card-title>{{appService.getRemainingHomeOffice()}}</mat-card-title>
-            <mat-card-subtitle>remaining home office</mat-card-subtitle>
-        </mat-card-header>
-    </mat-card>
-    <mat-card>
-        <mat-card-header>
-            <mat-card-title>{{appService.getRemainingAnnualLeave()}}</mat-card-title>
-            <mat-card-subtitle>remaining annual leave</mat-card-subtitle>
-        </mat-card-header>
-    </mat-card>
+        <mat-card>
+            <mat-card-header>
+                <mat-card-title>{{appService.getRemainingHomeOffice()}}</mat-card-title>
+                <mat-card-subtitle>remaining home office</mat-card-subtitle>
+            </mat-card-header>
+        </mat-card>
+        <mat-card>
+            <mat-card-header>
+                <mat-card-title>{{appService.getCurrentYear()}}</mat-card-title>
+                <mat-card-subtitle>selected year</mat-card-subtitle>
+            </mat-card-header>
+        </mat-card>
+        <mat-card>
+            <mat-card-header>
+                <mat-card-title>{{appService.getRemainingAnnualLeave()}}</mat-card-title>
+                <mat-card-subtitle>remaining annual leave</mat-card-subtitle>
+            </mat-card-header>
+        </mat-card>
     </div>
 
     <!-- Settings -->
     <h3 *ngIf="!appService.hasDaySelection()">Settings</h3>
     <div class="card-container" *ngIf="!appService.hasDaySelection()">
         <form class="card-small">
-        <mat-form-field>
-            <input matInput type="number" name="currentYear" matInput [ngModel]="appService.getCurrentYear()"
+            <mat-form-field>
+                <input matInput type="number" name="currentYear" matInput [ngModel]="appService.getCurrentYear()"
                 [attr.disabled]="appService.hasDaySelection() ? true : null" (click)="yearPicker.open()">
-            <input matInput hidden [matDatepickerFilter]="appService.yearFilter" [matDatepicker]="yearPicker">
-            <mat-label>current year</mat-label>
-            <mat-hint>current year</mat-hint>
-            <mat-datepicker #yearPicker startView="multi-year" (yearSelected)="onYearSelected($event)"> <!-- TODO: override somehow other CSS to have header -->
-            </mat-datepicker>
+                <input matInput hidden [matDatepickerFilter]="appService.yearFilter" [matDatepicker]="yearPicker">
+                <mat-label>current year</mat-label>
+                <mat-hint>current year</mat-hint>
+                <mat-datepicker #yearPicker startView="multi-year" (yearSelected)="onYearSelected($event)" panelClass="yearPicker"></mat-datepicker>
             </mat-form-field>
             <mat-form-field>
                 <mat-label>locale</mat-label>
-                <input type="text" name="dateLocale" matInput [ngModel]="appService.getLocale()" (ngModelChange)="appService.setLocale($event)" [attr.disabled]="appService.hasDaySelection() ? true : null">
+                <mtx-select name="dateLocale" appendTo="body" [items]="appService.getAvailableCountries()" bindLabel="name" bindValue="countryCode" [ngModel]="appService.getLocale()" (ngModelChange)="appService.setLocale($event)" ></mtx-select>
                 <mat-hint>locale</mat-hint>
             </mat-form-field>
             <br>

@@ -34,7 +34,8 @@ export class AppComponent implements AfterViewInit {
     constructor(public appService: AppService, private cdr: ChangeDetectorRef) {
     }
 
-    ngAfterViewInit() {
+    async ngAfterViewInit() {
+        await this.appService.setAvailableCountries();
         this.notifyChildYearChange();
         this.notifyChildren();
         this.cdr.detectChanges();

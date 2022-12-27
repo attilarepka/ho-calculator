@@ -4,7 +4,11 @@ import {firstValueFrom} from 'rxjs';
 
 @Injectable({providedIn : 'root'})
 export class HolidayApiService {
-    readonly apiBase: string = "https://date.nager.at/api/v3/publicholidays/";
+    // swagger:
+    // https://date.nager.at/swagger/index.html
+    readonly apiBase: string = "https://date.nager.at/api/v3/";
+    readonly publicHolidays: string = "publicholidays/";
+    readonly availableCountries: string = "availablecountries/";
     readonly pathSeparator: string = "/";
 
     constructor(private httpClient: HttpClient) {}
@@ -17,11 +21,24 @@ export class HolidayApiService {
         });
     };
 
-    generateApiUrl = (year: number, locale: string):
-        string => { return this.apiBase + year + this.pathSeparator + locale; };
+    generateAvailableCountriesApiUrl =
+        (): string => { return this.apiBase + this.availableCountries; };
+
+    generatePublicHolidaysApiUrl = (year: number, locale: string): string => {
+        return this.apiBase + this.publicHolidays + year + this.pathSeparator +
+               locale;
+    };
 
     getHolidays = async(year: number, locale: string): Promise<any> => {
-        const apiUrl = this.generateApiUrl(year, locale);
+        const apiUrl = this.generatePublicHolidaysApiUrl(year, locale);
+
+        const payload = await this.fetchData(apiUrl);
+
+        return payload;
+    };
+
+    getAvailableCountries = async(): Promise<any> => {
+        const apiUrl = this.generateAvailableCountriesApiUrl();
 
         const payload = await this.fetchData(apiUrl);
 
