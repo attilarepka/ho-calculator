@@ -23,7 +23,7 @@ jobs:
         run: |
           npm run build:prod
           mkdir ./deploy
-          cp -r ./dist/ho-calculator ./deploy/
+          cp -r ./dist/ho-calculator/* ./deploy/
       - name: Deploy to master
         uses: peaceiris/actions-gh-pages@v3
         with:
