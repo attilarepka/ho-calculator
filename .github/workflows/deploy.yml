@@ -3,7 +3,7 @@ on:
   push:
     branches:
       - source
-    pull_request:
+  pull_request:
 
 jobs:
   deploy:
@@ -20,10 +20,13 @@ jobs:
       - name: Install Packages
         run: npm install
       - name: Build page
-        run: npm run build:prod
+        run: |
+          npm run build:prod
+          mkdir ./deploy
+          cp -r ./dist/ho-calculator ./deploy/
       - name: Deploy to master
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.ACTIONS_DEPLOY_KEY }}
-          publish_dir: ./dist/ho-calculator
+          publish_dir: ./deploy
           publish_branch: master
