@@ -1,27 +1,35 @@
-# Home Office Calculator
+# HO Calculator
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.0.4.
+HO Calculator is a tool for calculating the yearly home-office limit and annual leave for employees. The tool allows you to select the active years, country home-office, and annual leave limits, and automatically generates public holidays.
 
-## Development server
+## Features
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+- **Save/load yearly plan:** HO Calculator allows you to save and load already calculated yearly plans in JSON format. This feature makes it easy to keep track of your plans and update them as needed.
 
-## Code scaffolding
+- **Select active years/country home-office/annual leave limits:** You can select the active years, country home-office, and annual leave limits according to your needs. This feature ensures that you get accurate calculations based on the relevant data.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+- **Automatically generated public holidays:** HO Calculator automatically generates public holidays, saving you time and effort in calculating them manually.
 
-## Build
+## License
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+This project is licensed under the MIT License.
 
-## Running unit tests
+## Contributing
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+We welcome contributions from the community. If you would like to contribute to this project, please feel free to submit a pull request or open an issue.
 
-## Running end-to-end tests
+### Development setup
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+To get started with development, you will need to have Node.js and npm installed on your system. Then, follow these steps:
 
-## Further help
+1. Clone this repository.
+2. Install dependencies using `npm install`.
+3. Start the development server using `npm run dev`.
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+### Testing
+
+This project uses Jest for testing. To run the tests, use `npm run test`.
+
+## Conclusion
+
+HO Calculator is a powerful tool that simplifies the process of calculating yearly home-office and annual leave limits. With its intuitive interface and useful features, it's an essential tool for anyone who needs to manage their work schedule effectively.
