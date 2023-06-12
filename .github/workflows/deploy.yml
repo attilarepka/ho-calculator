@@ -30,3 +30,4 @@ jobs:
           github_token: ${{ secrets.ACTIONS_DEPLOY_KEY }}
           publish_dir: ./deploy
           publish_branch: master
+          cname: homeoffice.repka.hu
