@@ -1,3 +1,4 @@
+**⚠️ This project is no longer maintained in favor of [Year Planner](https://github.com/attilarepka/year-planner)⚠️**
 # HO Calculator
 
 HO Calculator is a tool for calculating the yearly home-office limit and annual leave for employees. The tool allows you to select the active years, country home-office, and annual leave limits, and automatically generates public holidays.
